@@ -67,8 +67,9 @@ class App extends Component {
   }
 
   render(){
-    const { images, isModalShown, modalImageSource, modalAlt } = this.state;
-    const isGalleryItemsShown = images['length'] === 0 ? false : true;
+    const { images } = this.state;
+    // const { images, isModalShown, modalImageSource, modalAlt } = this.state;
+    // const isGalleryItemsShown = images['length'] === 0 ? false : true;
 
     return(
       <>
