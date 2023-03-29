@@ -1,45 +1,95 @@
 import { Component } from "react";
-// import axios from "axios";
+import Searchbar from "components/Searchbar/Searchbar";
+import ImageGallery from "components/ImageGallery/ImageGallery";
 
-// axios.defaults.baseURL = "https://pixabay.com/api/"
-
-// const ImageGallery = ({ images }) => (
-//   <ul>
-//     {images.map(({ id, webformatURL, largeImageURL }) => (
-//       <li key={id}>
-//         <a href={webformatURL} target="_blank" rel="noreferrer noopener"></a>
-//           {largeImageURL}
-//       </li>
-//     ))}
-//   </ul>
-// )
-
-// class App extends Component{
-//   state = {
-//     images: [],
-//   };
-
-  // async componentDidMount() {
-  //   const response = await axios.get("/search?query=cat")
-  //   this.setState({ articles: response.data.hits });
-  // }
-
-  // render() {
-  //   const { images } = this.state;
-
-  //   return (
-  //     <div>
-  //       <ImageGallery images={images}/>
-  //     </div>
-  //   )
-  // }
-// }
-
+const KEY = '33302890-ea105e46da5a591cb4b446b85'
 class App extends Component {
+  state = {
+    images: [],
+    searchText: '',
+    pages: 0,
+    isLoading: false,
+    isModalShown: false,
+    modalImageSource: '',
+    modalAlt: '',
+    
+  }
+
+  fetchImages = async url => {
+    const images = await fetch(url);
+    const imagesJson = await images.json();
+    return imagesJson.hits;
+  }
+
+  handleSubmit = async event => {
+    event.preventDefault();
+
+    const page = 1;
+    const input = event.target[1]['value'];
+    const URL = `https://pixabay.com/api/?q=${input}&page=${page}&key=${KEY}&image_type=photo&orientation=horizontal&per_page=12`
+
+    const images = await this.fetchImages(URL)
+
+    this.setState({
+      images: images,
+      searchText: input,
+      pages: page
+    })
+  }
+
+  handleImageClick = event => {
+    const id = event.target.id;
+
+    const imageObject = this.state.images.find(
+      element => element.id === Number(id)
+    );
+
+    this.setState({
+      isModalShown: true,
+      modalImageSource: imageObject.largeImageURL
+    })
+  }
+
+  handleEsc = event => {
+    if (event.key === 'Escape') {
+      this.setState({
+        isModalShown: false
+      })
+    }
+  }
+
+  handleOverlayClick = event => {
+    if (event.target.classList.contains('overlay')){
+      this.setState({
+        isModalShown: false
+      })
+    }
+  }
+
   render(){
+    const { images, isModalShown, modalImageSource, modalAlt } = this.state;
+    const isGalleryItemsShown = images['length'] === 0 ? false : true;
+
     return(
       <>
-        <span>Work in progress</span>
+        {/* {isModalShown ? (
+          <Modal
+            src={modalImageSource}
+            alt={modalAlt}
+            handleOverlayClick={this.handleOverlayClick}
+            handleEsc={this.handleEsc} 
+          />
+        ) : (
+          <></>
+        )} */}
+
+        <Searchbar handleSubmit={this.handleSubmit}/>
+
+        <ImageGallery 
+          images={images}
+          handleImageClick={this.handleImageClick}
+        />
+        
       </>
     )
   }
