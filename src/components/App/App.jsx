@@ -1,6 +1,9 @@
 import { Component } from "react";
+import { Loading } from 'notiflix/build/notiflix-loading-aio';
 import Searchbar from "components/Searchbar/Searchbar";
 import ImageGallery from "components/ImageGallery/ImageGallery";
+import Modal from "components/Modal/Modal";
+import Button from "components/Button/Button";
 
 const KEY = '33302890-ea105e46da5a591cb4b446b85'
 class App extends Component {
@@ -23,6 +26,7 @@ class App extends Component {
 
   handleSubmit = async event => {
     event.preventDefault();
+    Loading.standard({ svgColor: '#3f51b5' });
 
     const page = 1;
     const input = event.target[1]['value'];
@@ -35,6 +39,25 @@ class App extends Component {
       searchText: input,
       pages: page
     })
+  }
+
+  handleLoadMore = async () => {
+    Loading.standard({ svgColor: '#3f51b5' });
+    const prevImages = this.state.images;
+    const page = this.state.pages + 1;
+    const input = this.state.searchText;
+
+    const URL = `https://pixabay.com/api/?q=${input}&page=${page}&key=${KEY}&image_type=photo&orientation=horizontal&per_page=12`
+    const newImages = await this.fetchImages(URL);
+
+    this.setState({
+      images: [ ...prevImages, newImages ],
+      pages: page
+    })
+  }
+
+  componentDidUpdate(){
+    Loading.remove();
   }
 
   handleImageClick = event => {
@@ -67,13 +90,13 @@ class App extends Component {
   }
 
   render(){
-    const { images } = this.state;
-    // const { images, isModalShown, modalImageSource, modalAlt } = this.state;
-    // const isGalleryItemsShown = images['length'] === 0 ? false : true;
+    // const { images } = this.state;
+    const { images, isModalShown, modalImageSource, modalAlt } = this.state;
+    const isGalleryItemsShown = images['length'] === 0 ? false : true;
 
     return(
       <>
-        {/* {isModalShown ? (
+        {isModalShown ? (
           <Modal
             src={modalImageSource}
             alt={modalAlt}
@@ -82,7 +105,7 @@ class App extends Component {
           />
         ) : (
           <></>
-        )} */}
+        )}
 
         <Searchbar handleSubmit={this.handleSubmit}/>
 
@@ -90,6 +113,12 @@ class App extends Component {
           images={images}
           handleImageClick={this.handleImageClick}
         />
+
+        {isGalleryItemsShown ? (
+          <Button handleLoadMore={this.handleLoadMore}/>
+        ) : (
+          <></>
+        )}
         
       </>
     )

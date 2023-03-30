@@ -1,12 +1,13 @@
 const Searchbar = ({ handleSubmit }) => {
     return(
-        <header>
-            <form onSubmit={handleSubmit}>
-                <button type="submit">
-                    <span>Search</span>
+        <header className="searchbar">
+            <form className="search-form" onSubmit={handleSubmit}>
+                <button className="search-form-button" type="submit">
+                    <span className="search-form-button">🔎</span>
                 </button>
 
                 <input
+                    className="search-form-input"
                     type="text"
                     autocomplete="off"
                     autofocus

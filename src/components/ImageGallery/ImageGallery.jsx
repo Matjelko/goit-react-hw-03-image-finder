@@ -9,7 +9,7 @@ class ImageGallery extends Component {
 
     render(){
         return(
-            <ul>
+            <ul className="image-gallery" onClick={this.props.handleImageClick}>
                 {this.props.images.map(image => (
                     <ImageGalleryItem
                         key={image.id}
