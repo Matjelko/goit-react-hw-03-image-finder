@@ -51,7 +51,7 @@ class App extends Component {
     const newImages = await this.fetchImages(URL);
 
     this.setState({
-      images: [...prevImages, newImages],
+      images: [...prevImages, ...newImages],
       pages: page
     })
   }
