@@ -32,7 +32,7 @@ class App extends Component {
     const input = event.target[1]['value'];
     const URL = `https://pixabay.com/api/?q=${input}&page=${page}&key=${KEY}&image_type=photo&orientation=horizontal&per_page=12`
 
-    const images = await this.fetchImages(URL)
+    const images = await this.fetchImages(URL);
 
     this.setState({
       images: images,
@@ -51,7 +51,7 @@ class App extends Component {
     const newImages = await this.fetchImages(URL);
 
     this.setState({
-      images: [ ...prevImages, newImages ],
+      images: [...prevImages, newImages],
       pages: page
     })
   }
@@ -115,7 +115,18 @@ class App extends Component {
         />
 
         {isGalleryItemsShown ? (
+          <div
+            style={{
+              width: '100%',
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              marginTop: 30,
+              marginBottom: 40
+            }}
+          >
           <Button handleLoadMore={this.handleLoadMore}/>
+          </div>
         ) : (
           <></>
         )}
