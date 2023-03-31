@@ -64,7 +64,7 @@ class App extends Component {
     const id = event.target.id;
 
     const imageObject = this.state.images.find(
-      element => element.id === Number(id)
+      element => element.id === (id)
     );
 
     this.setState({
