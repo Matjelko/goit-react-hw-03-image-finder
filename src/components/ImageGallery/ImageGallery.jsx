@@ -1,5 +1,6 @@
 import { Component } from "react";
 import ImageGalleryItem from "components/ImageGalleryItem/ImageGalleryItem";
+import PropTypes from 'prop-types';
 
 class ImageGallery extends Component {
     static defaultProps = {
@@ -21,6 +22,11 @@ class ImageGallery extends Component {
             </ul>
         )
     }
+}
+
+ImageGallery.propTypes = {
+    images: PropTypes.array,
+    pages: PropTypes.number
 }
 
 export default ImageGallery;

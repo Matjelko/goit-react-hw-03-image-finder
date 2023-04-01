@@ -1,4 +1,5 @@
 import { Component } from "react";
+import PropTypes from 'prop-types';
 
 class Modal extends Component {
     componentDidMount() {
@@ -24,6 +25,11 @@ class Modal extends Component {
             </div>
         )
     }
+}
+
+Modal.propTypes = {
+    handleEsc: PropTypes.func,
+    handleOverlayClick: PropTypes.func
 }
 
 export default Modal

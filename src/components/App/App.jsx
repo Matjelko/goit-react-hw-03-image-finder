@@ -4,6 +4,7 @@ import Searchbar from "components/Searchbar/Searchbar";
 import ImageGallery from "components/ImageGallery/ImageGallery";
 import Modal from "components/Modal/Modal";
 import Button from "components/Button/Button";
+import PropTypes from 'prop-types';
 
 const KEY = '33302890-ea105e46da5a591cb4b446b85'
 class App extends Component {
@@ -134,6 +135,18 @@ class App extends Component {
       </>
     )
   }
+}
+
+App.propTypes = {
+  images: PropTypes.array,
+  searchText: PropTypes.string,
+  pages: PropTypes.number,
+  isLoading: PropTypes.bool,
+  isModalShown: PropTypes.bool,
+  modalImageSource: PropTypes.string,
+  modalAlt: PropTypes.string,
+  fetchImages: PropTypes.func,
+  handleImageClick: PropTypes.func
 }
 
 export default App;
